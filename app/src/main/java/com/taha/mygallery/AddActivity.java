@@ -2,7 +2,6 @@ package com.taha.mygallery;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.ImageDecoder;
 import android.os.Build;
 import android.os.Bundle;
@@ -11,10 +10,12 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Objects;
 
@@ -27,6 +28,7 @@ public class AddActivity extends AppCompatActivity {
     ImageView imageView;
     Bitmap loadedImage;
     private String TAG = "thkh1998_debugger";
+    Bitmap scaledImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +42,7 @@ public class AddActivity extends AppCompatActivity {
         descriptionEdt = findViewById(R.id.add_activity_description_edit_text);
         imageView = findViewById(R.id.add_activity_add_image_view);
 
-        imageView.setBackgroundColor(Color.parseColor("#363636"));
+        //imageView.setBackgroundColor(Color.parseColor("#363636"));
 
         imageView.setOnClickListener(view -> {
             Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -52,6 +54,26 @@ public class AddActivity extends AppCompatActivity {
         });
 
         saveBtn.setOnClickListener(view -> {
+            if (loadedImage != null) {
+                String title = titleEdt.getText().toString();
+                String description = descriptionEdt.getText().toString();
+                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                scaledImage = MainActivity.makeSmall(loadedImage, 300);
+                scaledImage.compress(Bitmap.CompressFormat.PNG, 50, outputStream);
+                byte[] image = outputStream.toByteArray();
+
+                Intent intent = new Intent(AddActivity.this, MainActivity.class);
+
+                intent.putExtra(MainActivity.IMAGE_KEY, image);
+                intent.putExtra(MainActivity.TITLE_KEY, title);
+                intent.putExtra(MainActivity.DESCRIPTION_KEY, description);
+
+                setResult(RESULT_OK, intent);
+                finish();
+            } else {
+                Toast.makeText(this, "Please Select an Image first", Toast.LENGTH_LONG)
+                        .show();
+            }
 
         });
     }
@@ -72,7 +94,7 @@ public class AddActivity extends AppCompatActivity {
                     loadedImage = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
                 }
                 imageView.setImageBitmap(loadedImage);
-                imageView.setBackgroundColor(getResources().getColor(R.color.transparent));
+                //imageView.setBackgroundColor(getResources().getColor(R.color.transparent));
             } catch (IOException e) {
                 e.printStackTrace();
             }

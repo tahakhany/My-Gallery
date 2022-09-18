@@ -1,5 +1,8 @@
 package com.taha.mygallery;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
@@ -48,5 +51,9 @@ class MyImages {
 
     public byte[] getImage() {
         return image;
+    }
+
+    public Bitmap getImageBitmap() {
+        return BitmapFactory.decodeByteArray(image, 0, image.length);
     }
 }

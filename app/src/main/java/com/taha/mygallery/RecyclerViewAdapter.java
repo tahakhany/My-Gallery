@@ -1,6 +1,7 @@
 package com.taha.mygallery;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -29,15 +30,17 @@ class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.CardV
    @NonNull
    @Override
    public CardView onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-      View view = View.inflate(context, R.layout.card_view_layout, parent);
-      /*View view1 = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view_layout,
-              parent,false);*/
+      //View view = View.inflate(context, R.layout.card_view_layout, parent);
+      View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view_layout,
+              parent, false);
       return new CardView(view);
    }
 
    @Override
    public void onBindViewHolder(@NonNull CardView holder, int position) {
-
+      holder.image.setImageBitmap(myImages.get(position).getImageBitmap());
+      holder.title.setText(myImages.get(position).getImageTitle());
+      holder.description.setText(myImages.get(position).getImageDescription());
    }
 
    @Override
@@ -64,5 +67,9 @@ class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.CardV
          description = itemView.findViewById(R.id.card_view_image_description);
          card = itemView.findViewById(R.id.card_view_card_view);
       }
+   }
+
+   interface CardViewItemClickedListener {
+      void onClick(View view);
    }
 }
