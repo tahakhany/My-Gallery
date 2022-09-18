@@ -42,7 +42,12 @@ class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.CardV
 
    @Override
    public int getItemCount() {
-      return myImages.size();
+      try {
+         return myImages.size();
+      } catch (Exception e) {
+         return 0;
+      }
+
    }
 
    class CardView extends RecyclerView.ViewHolder {

@@ -1,10 +1,14 @@
 package com.taha.mygallery;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,7 +20,9 @@ import java.util.Objects;
 public class MainActivity extends AppCompatActivity {
 
     MyImagesViewModel myImagesViewModel;
-    private final int ADD_ACTIVITY_CODE = 1;
+    public static final int ADD_ACTIVITY_CODE = 1;
+    public static final int READ_EXTERNAL_MEMORY_REQUEST_CODE = 1000;
+    public static final int GET_IMAGE_FROM_MEMORY_REQUEST_CODE = 100;
     RecyclerView recyclerView;
     RecyclerViewAdapter recyclerViewAdapter;
     FloatingActionButton FAB;
@@ -42,8 +48,19 @@ public class MainActivity extends AppCompatActivity {
         });
 
         FAB.setOnClickListener(view -> {
-            Intent intent = new Intent(this, AddActivity.class);
-            startActivityForResult(intent, ADD_ACTIVITY_CODE);
+
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) ==
+                    PackageManager.PERMISSION_GRANTED) {
+
+                Intent intent = new Intent(this, AddActivity.class);
+                startActivityForResult(intent, ADD_ACTIVITY_CODE);
+            } else {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                        READ_EXTERNAL_MEMORY_REQUEST_CODE);
+            }
+
+
         });
     }
 
