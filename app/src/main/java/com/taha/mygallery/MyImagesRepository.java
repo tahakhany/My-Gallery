@@ -5,12 +5,12 @@ import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 
-import java.util.ArrayList;
+import java.util.List;
 
 class MyImagesRepository {
 
-   private MyImagesDao myImagesDao;
-   private LiveData<ArrayList<MyImages>> myImages;
+   private final MyImagesDao myImagesDao;
+   private final LiveData<List<MyImages>> myImages;
 
    public MyImagesRepository(Application application) {
       MyImagesDB myImagesDB = MyImagesDB.getInstance(application);
@@ -30,7 +30,7 @@ class MyImagesRepository {
       new DeleteImageAsyncTask(myImagesDao).execute(myImage);
    }
 
-   public LiveData<ArrayList<MyImages>> getMyImages() {
+   public LiveData<List<MyImages>> getMyImages() {
       return myImages;
    }
 

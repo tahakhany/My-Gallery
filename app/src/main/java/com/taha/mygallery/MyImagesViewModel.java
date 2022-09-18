@@ -6,12 +6,12 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import java.util.ArrayList;
+import java.util.List;
 
-class MyImagesViewModel extends AndroidViewModel {
+public class MyImagesViewModel extends AndroidViewModel {
 
-    private MyImagesRepository repository;
-    private LiveData<ArrayList<MyImages>> myImages;
+    private final MyImagesRepository repository;
+    private final LiveData<List<MyImages>> myImages;
 
     public MyImagesViewModel(@NonNull Application application) {
         super(application);
@@ -32,7 +32,7 @@ class MyImagesViewModel extends AndroidViewModel {
         repository.delete(myImage);
     }
 
-    public LiveData<ArrayList<MyImages>> getMyImages() {
+    public LiveData<List<MyImages>> getMyImages() {
         return repository.getMyImages();
     }
 }

@@ -7,7 +7,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import java.util.ArrayList;
+import java.util.List;
 
 @Dao
 interface MyImagesDao {
@@ -22,6 +22,6 @@ interface MyImagesDao {
     void update(MyImages image);
 
     @Query("SELECT * FROM images_table ORDER BY imageId ASC")
-    LiveData<ArrayList<MyImages>> getAllImages();
+    LiveData<List<MyImages>> getAllImages();
 
 }

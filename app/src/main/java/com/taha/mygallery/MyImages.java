@@ -10,11 +10,11 @@ class MyImages {
     @PrimaryKey(autoGenerate = true)
     private int imageId;
 
-    private String imageTitle;
+    private final String imageTitle;
 
-    private String imageDescription;
+    private final String imageDescription;
 
-    private byte[] image;
+    private final byte[] image;
 
     @Ignore
     public MyImages(int imageId, String imageTitle, String imageDescription, byte[] image) {
